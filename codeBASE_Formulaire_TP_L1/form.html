@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="Stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="formulaire">
+      <form action="">
+        <div class="titre">
+          <h1>Formulaire d'inscription</h1>
+        </div>
+        <div class="form">
+          <div class="inputszone">
+            <div class="identity">
+              <div class="minidentity">
+                <label for="nom"> Nom </label>
+                <input title="nom" type="text" id="nom" />
+              </div>
+              <div class="minidentity">
+                <label for="noms"> Post-nom </label>
+                <input title="Post-nom" type="text" id="Postnom" />
+              </div>
+            </div>
+            <div class="information">
+              <label for="email"> Email </label>
+              <input title="email" type="email" id="email" />
+
+              <label for="pass"> Mot de passe </label>
+              <input title="pass" type="password" id="pass" />
+            </div>
+          </div>
+          <div class="buttonzone">
+            <button
+              title="enregistrer"
+              type="button"
+              id="register"
+              onclick="AjouterInscription()"
+            >
+              Enregistrer
+            </button>
+            <button
+              title="Effacer"
+              type="reset"
+              id="delete"
+              onclick="deleteFields()"
+            >
+              Effacer
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="tableau">
+      <table>
+        <thead>
+          <tr>
+            <th class="nomT">Nom</th>
+            <th class="PostnomT">Post-Nom</th>
+            <th class="emailT">Email</th>
+            <th class="passT">Mot de passe</th>
+          </tr>
+        </thead>
+        <tbody class="tbody"></tbody>
+      </table>
+    </div>
+    <script>
+      const nom = document.getElementById("nom");
+      const PostNom = document.getElementById("Postnom");
+      const mail = document.getElementById("email");
+      const pass = document.getElementById("pass");
+      const register = document.getElementById("register");
+      const tbody = document.querySelector(".tbody");
+      const regexpName = /^[\p{L}-]+$/u;
+      const regexpEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const regexpPass =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+      verifiechamps = () => {
+        if (
+          mail.value.trim() !== "" &&
+          pass.value.trim() !== "" &&
+          nom.value.trim() !== "" &&
+          PostNom.value.trim() !== ""
+        ) {
+          if (!regexpName.test(nom.value) || !regexpName.test(PostNom.value)) {
+            alert(
+              "Le nom et le post-nom ne doivent contenir que des lettres et des tirets."
+            );
+            return false;
+          }
+          if (nom.value.length < 3 || PostNom.value.length < 3) {
+            alert(
+              "Le nom et le post-nom doivent contenir au moins 3 caractères."
+            );
+            return false;
+          }
+          if (!regexpEmail.test(mail.value)) {
+            alert("Veuillez entrer une adresse email valide.");
+            return;
+          }
+          if (!regexpPass.test(pass.value)) {
+            alert(
+              "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial."
+            );
+            return false;
+          }
+        } else {
+          alert("Veulliez remplir tous les champs.");
+          return false;
+        }
+
+        return true;
+      };
+
+      function AjouterInscription() {
+        if (!verifiechamps()) {
+          return;
+        }
+        const row = document.createElement("tr");
+
+        const nomcell = document.createElement("td");
+        nomcell.textContent = nom.value;
+        row.appendChild(nomcell);
+
+        const postnomcell = document.createElement("td");
+        postnomcell.textContent = PostNom.value;
+        row.appendChild(postnomcell);
+
+        const emailcell = document.createElement("td");
+        emailcell.textContent = mail.value;
+        row.appendChild(emailcell);
+
+        const passcell = document.createElement("td");
+        passcell.textContent = pass.value;
+        row.appendChild(passcell);
+
+        tbody.appendChild(row);
+      }
+
+      function deleteFields() {
+        nom.value = "";
+        PostNom.value = "";
+        mail.value = "";
+        pass.value = "";
+      }
+    </script>
+  </body>
+</html>
